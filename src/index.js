@@ -29,10 +29,25 @@ console.log(store.getState());
 
 store.subscribe(() => {
   console.log('subscribe',store.getState());
+  const list = document.querySelectorAll('.list')[0];
+  list.innerHTML = '';
+  document.querySelectorAll('.trackInput')[0].value = '';
+  store.getState().forEach(track => {
+    const li = document.createElement('li');
+    li.textContent = track;
+    list.appendChild(li);
+  })
 })
 // подписка когда у нас будет совершаться какоето собитие, изменения будут в консоли 
 
-store.dispatch({ type: 'ADD_TRACK', payload: 'Smells like spirit'})
-// вистреливает екшин, меняет store
-// принимает на вход обьект поле type обезательное
-store.dispatch({ type: 'ADD_TRACK', payload: 'Enter Sandman'})
+
+
+
+const addTrackBtn = document.querySelectorAll('.addTrack')[0];
+addTrackBtn.addEventListener('click', () => {
+  const trackName = document.querySelectorAll('.trackInput')[0].value;
+  console.log('trackName', trackName);// вешает лисенер на кнопку addTrack
+  store.dispatch({ type: 'ADD_TRACK', payload: trackName});
+    // вистреливает екшин, меняет store
+    // принимает на вход обьект поле type обезательное
+}); 
