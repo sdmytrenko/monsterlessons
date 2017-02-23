@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { getTracks } from './actions/tracks';
+
 class App extends Component {
 
   addTrack(){
@@ -25,6 +27,9 @@ class App extends Component {
       <div>
         <input type="text" ref={(input) => {this.searchInput = input}} /> 
         <button onClick={this.findTrack.bind(this)}>Find track</button>
+      </div>
+      <div>
+        <button onClick={this.props.onGetTracks} >Get tracks</button>
       </div>
       <ul>
         {this.props.tracks.map((track, index) =>
@@ -54,6 +59,9 @@ export default connect(  // декоратор с редакс
     onFindTrack: (name) => { // новый метод который будет диспатчить новый инвент с типом FIND_TRACK
       console.log('name', name);
       dispatch({ type: 'FIND_TRACK', payload: name});
+    },
+    onGetTracks: () => { // 2. в функции мы возвр. другую функцию у которой есть аргумент диспатч
+      dispatch(getTracks()); //1. вызываем диспатч но не с обьектом а с функцией
     }
   })
   // диспатчим ивент по клику
