@@ -6,20 +6,31 @@ import { createStore } from 'redux';
 import App from './App';
 import './index.css';
 
-const initialState = [
-  'Smells like spirit',
-  'Enter Sandman'
-];
+const initialState = {
+  tracks: [
+    'Smells like spirit',
+    'Enter Sandman'
+  ],
+  playlists: [
+    'My home playlist',
+    'My work playlist'
+  ]
+};
 
 function playlist(state = initialState, action) {
   // функция которая будет изменять нам стор
   // console.log(action);
   if (action.type === 'ADD_TRACK') {
-    return [
-    ...state, // спред ???
-    // ... добавит значение в массив и вернет новый массив
-    action.payload
-    ]
+    return {
+      ...state, // берем state [track и playlist], мерджим новый трек и новый пейлоад
+      tracks: [...state.tracks, action.payload]
+    };
+  } else if (action.type === 'DELETE_TRACK') {
+    return state;
+  } else if (action.type === 'ADD_PLAYLIST') {
+    return state;
+  } else if (action.type === 'DELETE_PLAYLIST') {
+    return state;
   }
   return state;
 }
