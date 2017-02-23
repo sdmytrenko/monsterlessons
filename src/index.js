@@ -6,36 +6,9 @@ import { createStore } from 'redux';
 import App from './App';
 import './index.css';
 
-const initialState = {
-  tracks: [
-    'Smells like spirit',
-    'Enter Sandman'
-  ],
-  playlists: [
-    'My home playlist',
-    'My work playlist'
-  ]
-};
+import reducer from './reducers';
 
-function playlist(state = initialState, action) {
-  // функция которая будет изменять нам стор
-  // console.log(action);
-  if (action.type === 'ADD_TRACK') {
-    return {
-      ...state, // берем state [track и playlist], мерджим новый трек и новый пейлоад
-      tracks: [...state.tracks, action.payload]
-    };
-  } else if (action.type === 'DELETE_TRACK') {
-    return state;
-  } else if (action.type === 'ADD_PLAYLIST') {
-    return state;
-  } else if (action.type === 'DELETE_PLAYLIST') {
-    return state;
-  }
-  return state;
-}
-
-const store = createStore(playlist, window.__REDUX_DEVTOOLS_EXTENSION__ && 
+const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && 
 window.__REDUX_DEVTOOLS_EXTENSION__());
 // store - хранилище всех наших данных в приложении
 
