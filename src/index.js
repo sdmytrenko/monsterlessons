@@ -4,11 +4,13 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux'; 
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
+import { Router, Route, hashHistory } from 'react-router'
 
 import App from './App';
 import './index.css';
 
 import reducer from './reducers';
+import About from './About';
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 // store - хранилище всех наших данных в приложении
@@ -16,7 +18,10 @@ const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 ReactDOM.render(
   //этот стор будет доступен в каждой чайлдовой компоненте провайдера
   <Provider store={store}> 
-    <App />
+    <Router history={hashHistory}> 
+      <Route path="/" component={App}/>
+      <Route path="/about" component={About}/>
+    </Router>
   </Provider>,
   document.getElementById('root')
 );
