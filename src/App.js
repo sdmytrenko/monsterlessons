@@ -1,46 +1,48 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { getTracks } from './actions/tracks';
 import Menu from './Menu';
 
-class App extends Component {
+const App = ({ tracks, onAddTrack, onFindTrack, onGetTracks }) => { // переделываем клас на функцию
 
-  addTrack(){
-    console.log('addTrack', this.trackInput.value);
-    this.props.onAddTrack(this.trackInput.value);
-    this.trackInput.value = ''
+  // нужно вместо this. задать начальное значение для локальных переменных
+  // но с помощью let, т.к. мы будем их переприсваивать
+  let trackInput = '';
+  let searchInput = '';
+
+  const addTrack = () => {
+    console.log('addTrack', trackInput.value); // метод попадает с props прокидываем его на вход
+    onAddTrack(trackInput.value);
+    trackInput.value = ''
   }
 
-  findTrack() {
-    console.log('findTrack', this.searchInput.value);
-    this.props.onFindTrack(this.searchInput.value);
+  const findTrack = () => {
+    console.log('findTrack', searchInput.value);
+    onFindTrack(searchInput.value);
   }
 
-  render() {
-    console.log(this.props.tracks);
-    return (
+  return (
+  <div>
+    <Menu/>
     <div>
-      <Menu/>
-      <div>
-        <input type="text" ref={(input) => {this.trackInput = input}} /> 
-        <button onClick={this.addTrack.bind(this)}>Add track</button>
-      </div>
-      <div>
-        <input type="text" ref={(input) => {this.searchInput = input}} /> 
-        <button onClick={this.findTrack.bind(this)}>Find track</button>
-      </div>
-      <div>
-        <button onClick={this.props.onGetTracks} >Get tracks</button>
-      </div>
-      <ul>
-        {this.props.tracks.map((track, index) =>
-          <li key={index}> {track.name} </li>
-        )}
-      </ul>
+      <input type="text" ref={(input) => {trackInput = input}} /> 
+      <button onClick={addTrack}>Add track</button>
     </div>
-    );
-  }
+    <div>
+      <input type="text" ref={(input) => {searchInput = input}} /> 
+      <button onClick={findTrack}>Find track</button>
+    </div>
+    <div>
+      <button onClick={onGetTracks} >Get tracks</button>
+    </div>
+    <ul>
+      {tracks.map((track, index) =>
+        <li key={index}> {track.name} </li>
+      )}
+    </ul>
+  </div>
+  );
 }
 
 // ref={(input) => {this.trackInput = input} - используем ref, чтобы не слушать локальный state
@@ -67,4 +69,4 @@ export default connect(  // декоратор с редакс
     }
   })
   // диспатчим ивент по клику
-)(App);
+)(App); // передается на вход в connect как чистая функция
