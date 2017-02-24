@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 import { getTracks } from './actions/tracks';
 import Menu from './Menu';
 
-const App = ({ tracks, onAddTrack, onFindTrack, onGetTracks }) => { // переделываем клас на функцию
-
+const App = ({ tracks, onAddTrack, onFindTrack, onGetTracks, ownProps }) => { // переделываем клас на функцию
+  console.log('ownProps', ownProps);
   // нужно вместо this. задать начальное значение для локальных переменных
   // но с помощью let, т.к. мы будем их переприсваивать
   let trackInput = '';
@@ -38,7 +39,9 @@ const App = ({ tracks, onAddTrack, onFindTrack, onGetTracks }) => { // пере�
     </div>
     <ul>
       {tracks.map((track, index) =>
-        <li key={index}> {track.name} </li>
+        <li key={index}> 
+          <Link to={`/tracks/${track.id}`}>{track.name}</Link>
+        </li>
       )}
     </ul>
   </div>
@@ -49,8 +52,9 @@ const App = ({ tracks, onAddTrack, onFindTrack, onGetTracks }) => { // пере�
 // когда проходит рендер в this.trackInput присв ссылка на DOM елемент imput
 
 export default connect(  // декоратор с редакс
-  state => ({
-    tracks: state.tracks.filter(track => track.name.includes(state.filterTracks))
+  (state, ownProps) => ({
+    tracks: state.tracks.filter(track => track.name.includes(state.filterTracks)),
+    ownProps
   }), // mapStateToProps она мапит стейт с стора(состояния) в пропс реакт компонента
   dispatch => ({
     onAddTrack: (name) => { // меняем екшин, чтобы он нам добавлял обьекты а не строки

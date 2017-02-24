@@ -1,4 +1,9 @@
-const initialState = [];
+const initialState = [
+  {
+    id: 123,
+    name: 'My super track'
+  }
+];
 
 export default function playlist(state = initialState, action) {
   // функция которая будет изменять нам стор
